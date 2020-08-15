@@ -1,12 +1,15 @@
 /**
- * Sample React Native App
+ * React Native Todo App with Redux
  * https://github.com/facebook/react-native
  *
  * @format
  * @flow strict-local
  */
 
-import React from 'react';
+import * as React from 'react';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,7 +27,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+
+const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
