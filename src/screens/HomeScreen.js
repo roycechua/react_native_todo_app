@@ -1,78 +1,84 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   SafeAreaView,
   Text,
   StyleSheet,
-  Modal,
-  TouchableHighlight,
   TouchableOpacity,
-  TextInput,
-  Dimensions,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const HomeScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const HomeScreen = ({route, navigation}) => {
   const [windowWidth, setWindowWidth] = useState(100);
 
   const [todoID, setTodoID] = useState(0);
-  const [todos, setTodos] = useState([]);
-  const [addTODOText, setAddTODOText] = useState('');
+  const [todos, setTodos] = useState([
+    {id: 1, task: 'Some task 1', isTaskDone: false}
+  ]);
 
   useEffect(() => {
     Dimensions.addEventListener('change', () =>
       setWindowWidth(Dimensions.get('window').width),
     );
     setWindowWidth(Dimensions.get('window').width);
+    // if (route.params?.new_todo) {
+    //   setTodos([...todos, route.params.new_todo])
+    // }
   }, []);
 
-  console.log(todos);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ margin: 15}}
+          onPress={() => navigation.navigate('AddTodo')}>
+          <Icon name="plus" size={25} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
+  // console.log(todos);
 
   return (
     <>
       <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
-          <TouchableHighlight
-            style={styles.FloatingActionButton}
-            onPress={() => {
-              setModalVisible(true);
-            }}>
-            <Icon name="plus" size={25} color="white" />
-          </TouchableHighlight>
-          { todos.length > 0 ?
+          {todos.length > 0 ? (
             <FlatList
               style={{
-                zIndex: -1,
                 flex: 1,
                 padding: 10,
                 width: windowWidth,
-                borderColor: 'red',
-                borderWidth: 1,
               }}
               data={todos}
-              keyExtractor={(todo) => todo.id}
+              keyExtractor={(item) => item.id.toString()}
               renderItem={({item}) => {
                 return (
                   <View
                     style={{
                       flex: 1,
-
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                     }}>
-                    <Text style={{padding: 10}}>{item.task}</Text>
+                    <TouchableOpacity
+                      style={{margin: 10}}
+                      onPress={() => navigation.navigate('EditTodo')}>
+                      <Text>{item.task}</Text>
+                    </TouchableOpacity>
+
                     <View style={{flexDirection: 'row'}}>
                       <TouchableOpacity
                         style={{margin: 10}}
-                        onPress={() => console.log('Update Pressed')}>
+                        onPress={() => console.log('Mark as done')}>
                         <Icon name={'check'} size={20} />
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={{margin: 10}}
-                        onPress={() => console.log('Update Pressed')}>
+                        onPress={() => console.log('Delete')}>
                         <Icon name={'times'} size={20} />
                       </TouchableOpacity>
                     </View>
@@ -80,54 +86,15 @@ const HomeScreen = () => {
                 );
               }}
             />
-            : <Text>You have no todos right now..</Text>
-          }
+          ) : (
+            <Text>You have no todos right now..</Text>
+          )}
+          <TouchableOpacity
+            style={styles.FloatingActionButton}
+            onPress={() => navigation.navigate('AddTodo')}>
+            <Icon name="plus" size={25} color="white" />
+          </TouchableOpacity>
         </View>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-          }}>
-          <View style={{...styles.modalWindow, width: windowWidth}}>
-            <View style={styles.modalView}>
-              <TextInput
-                style={styles.textInputStyle}
-                autoCapitalize={'sentences'}
-                autoCorrect={false}
-                value={addTODOText}
-                onChangeText={(text) => setAddTODOText(text)}
-              />
-              <TouchableHighlight
-                style={{
-                  margin: 10,
-                  borderRadius: 10,
-                  padding: 10,
-                  backgroundColor: '#2196F3',
-                }}
-                onPress={() => {
-                  setTodos([...todos, {id: todoID + 1, task: addTODOText}]);
-                  setTodoID(todoID + 1);
-                  setAddTODOText('');
-                  setModalVisible(!modalVisible);
-                }}>
-                <Icon name="plus" size={20} color="white" />
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={{
-                  borderRadius: 10,
-                  padding: 10,
-                  backgroundColor: 'red',
-                }}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}>
-                <Icon name="times" size={20} color="white" />
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
       </SafeAreaView>
     </>
   );
@@ -138,35 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 10,
-  },
-  textHeader: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  modalWindow: {
-    flex: 1,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    flexDirection: 'row',
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   FloatingActionButton: {
     position: 'absolute',
@@ -180,22 +118,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 10,
     elevation: 2,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  textInputStyle: {
-    flex: 1,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 2,
-    margin: 10,
   },
 });
 

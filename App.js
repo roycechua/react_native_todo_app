@@ -12,6 +12,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import HomeScreen from './src/screens/HomeScreen';
+import AddTodoScreen from './src/screens/AddTodoScreen';
+import EditTodoScreen from './src/screens/EditTodoScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -33,6 +36,34 @@ const App = () => {
           },
         }}
           
+        />
+        <Stack.Screen
+          name="AddTodo"
+          component={AddTodoScreen}
+          options={{
+          title: 'Add To do',
+          headerStyle: {
+            backgroundColor: '#2196F3',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+        />
+        <Stack.Screen
+          name="EditTodo"
+          component={EditTodoScreen}
+          options={{
+          title: 'Edit To do',
+          headerStyle: {
+            backgroundColor: '#2196F3',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
         />
       </Stack.Navigator>
     </NavigationContainer>
