@@ -24,7 +24,6 @@ const HomeScreen = () => {
     <>
       <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
-          <Text style={styles.textHeader}>TODO App</Text>
           <TouchableHighlight
             style={styles.FloatingActionButton}
             onPress={() => {
@@ -93,8 +92,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
-    borderColor: 'red',
-    borderWidth: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginTop: 22,
