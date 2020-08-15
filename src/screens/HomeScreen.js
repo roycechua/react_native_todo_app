@@ -15,7 +15,8 @@ const HomeScreen = ({route, navigation}) => {
 
   const [todoID, setTodoID] = useState(0);
   const [todos, setTodos] = useState([
-    {id: 1, task: 'Some task 1', isTaskDone: false}
+    {id: 1, task: 'Some task 1', isTaskDone: false},
+    {id: 2, task: 'Some task 2', isTaskDone: false}
   ]);
 
   useEffect(() => {
@@ -57,19 +58,19 @@ const HomeScreen = ({route, navigation}) => {
               keyExtractor={(item) => item.id.toString()}
               renderItem={({item}) => {
                 return (
-                  <View
+                  <TouchableOpacity
                     style={{
+                      borderColor: 'black',
+                      borderWidth: 1,
+                      borderRadius: 5,
                       flex: 1,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                    }}>
-                    <TouchableOpacity
-                      style={{margin: 10}}
-                      onPress={() => navigation.navigate('EditTodo')}>
-                      <Text>{item.task}</Text>
-                    </TouchableOpacity>
-
+                    }}
+                    onPress={()=>navigation.navigate("EditTodo")}
+                    >
+                    <Text style={{ margin: 10 }}>{item.task}</Text>
                     <View style={{flexDirection: 'row'}}>
                       <TouchableOpacity
                         style={{margin: 10}}
@@ -82,7 +83,7 @@ const HomeScreen = ({route, navigation}) => {
                         <Icon name={'times'} size={20} />
                       </TouchableOpacity>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               }}
             />
