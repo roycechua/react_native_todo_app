@@ -15,10 +15,16 @@ const HomeScreen = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [windowWidth, setWindowWidth] = useState(100)
 
+  const [todoID, setTodoID] = useState(0)
+  const [todos, setTodos] = useState([])
+  const [addTODOText, setAddTODOText] = useState('')
+
   useEffect(() => {
     Dimensions.addEventListener('change', () => setWindowWidth(Dimensions.get('window').width))
     setWindowWidth(Dimensions.get('window').width)
   }, [])
+
+  console.log(todos)
 
   return (
     <>
@@ -45,6 +51,8 @@ const HomeScreen = () => {
                 style={styles.textInputStyle}
                 autoCapitalize={'sentences'}
                 autoCorrect={false}
+                value={addTODOText}
+                onChangeText={(text)=>setAddTODOText(text)}
               />
               <TouchableHighlight
                 style={{
@@ -54,6 +62,8 @@ const HomeScreen = () => {
                   backgroundColor: '#2196F3',
                 }}
                 onPress={() => {
+                  setTodos([...todos, { id: todoID+1, todo: addTODOText }])
+                  setTodoID(todoID+1)
                   setModalVisible(!modalVisible);
                 }}>
                 <Icon name="plus" size={20} color="white" />
