@@ -6,25 +6,29 @@ import {
   StyleSheet,
   Modal,
   TouchableHighlight,
+  TouchableOpacity,
   TextInput,
-  Dimensions
+  Dimensions,
+  FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = () => {
-  const [modalVisible, setModalVisible] = useState(false)
-  const [windowWidth, setWindowWidth] = useState(100)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(100);
 
-  const [todoID, setTodoID] = useState(0)
-  const [todos, setTodos] = useState([])
-  const [addTODOText, setAddTODOText] = useState('')
+  const [todoID, setTodoID] = useState(0);
+  const [todos, setTodos] = useState([]);
+  const [addTODOText, setAddTODOText] = useState('');
 
   useEffect(() => {
-    Dimensions.addEventListener('change', () => setWindowWidth(Dimensions.get('window').width))
-    setWindowWidth(Dimensions.get('window').width)
-  }, [])
+    Dimensions.addEventListener('change', () =>
+      setWindowWidth(Dimensions.get('window').width),
+    );
+    setWindowWidth(Dimensions.get('window').width);
+  }, []);
 
-  console.log(todos)
+  console.log(todos);
 
   return (
     <>
@@ -37,6 +41,47 @@ const HomeScreen = () => {
             }}>
             <Icon name="plus" size={25} color="white" />
           </TouchableHighlight>
+          { todos.length > 0 ?
+            <FlatList
+              style={{
+                zIndex: -1,
+                flex: 1,
+                padding: 10,
+                width: windowWidth,
+                borderColor: 'red',
+                borderWidth: 1,
+              }}
+              data={todos}
+              keyExtractor={(todo) => todo.id}
+              renderItem={({item}) => {
+                return (
+                  <View
+                    style={{
+                      flex: 1,
+
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text style={{padding: 10}}>{item.task}</Text>
+                    <View style={{flexDirection: 'row'}}>
+                      <TouchableOpacity
+                        style={{margin: 10}}
+                        onPress={() => console.log('Update Pressed')}>
+                        <Icon name={'check'} size={20} />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={{margin: 10}}
+                        onPress={() => console.log('Update Pressed')}>
+                        <Icon name={'times'} size={20} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                );
+              }}
+            />
+            : <Text>You have no todos right now..</Text>
+          }
         </View>
         <Modal
           animationType="fade"
@@ -45,14 +90,14 @@ const HomeScreen = () => {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View style={{...styles.modalWindow, width: windowWidth,}}>
+          <View style={{...styles.modalWindow, width: windowWidth}}>
             <View style={styles.modalView}>
               <TextInput
                 style={styles.textInputStyle}
                 autoCapitalize={'sentences'}
                 autoCorrect={false}
                 value={addTODOText}
-                onChangeText={(text)=>setAddTODOText(text)}
+                onChangeText={(text) => setAddTODOText(text)}
               />
               <TouchableHighlight
                 style={{
@@ -62,8 +107,9 @@ const HomeScreen = () => {
                   backgroundColor: '#2196F3',
                 }}
                 onPress={() => {
-                  setTodos([...todos, { id: todoID+1, todo: addTODOText }])
-                  setTodoID(todoID+1)
+                  setTodos([...todos, {id: todoID + 1, task: addTODOText}]);
+                  setTodoID(todoID + 1);
+                  setAddTODOText('');
                   setModalVisible(!modalVisible);
                 }}>
                 <Icon name="plus" size={20} color="white" />
