@@ -21,3 +21,10 @@ or
 yarn run ios
 ```
 
+# Demo
+
+![Demo](https://github.com/roycechua23/react_native_todo_app/blob/master/demoScreenshots/react-native-todo-app-demo.gif)
+
+# Screenshot
+![HomeScreen](https://github.com/roycechua23/react_native_todo_app/blob/master/demoScreenshots/HomeScreen.png)
+![HomeScreenWUpdatedTasks](https://github.com/roycechua23/react_native_todo_app/blob/master/demoScreenshots/HomeScreenWUpdatedTasks.png)
