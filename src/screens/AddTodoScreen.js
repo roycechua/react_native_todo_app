@@ -15,13 +15,7 @@ const AddTodoScreen = ({navigation}) => {
       <Text style={{fontSize: 25}}>Task to do:</Text>
       <TextInput
         placeholder={'Write a todo...'}
-        style={{
-          borderColor: 'black',
-          borderWidth: 1,
-          borderRadius: 10,
-          marginVertical: 10,
-          fontSize: 15,
-        }}
+        style={styles.TextInputStyle}
         autoCapitalize={'sentences'}
         autoCorrect={false}
         value={todoText}
@@ -45,12 +39,17 @@ const AddTodoScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
-    borderColor: 'red',
     flex: 1,
     margin: 20,
     alignItems: 'stretch',
     justifyContent:'center'
+  },
+  TextInputStyle: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginVertical: 10,
+    fontSize: 15,
   },
 });
 
