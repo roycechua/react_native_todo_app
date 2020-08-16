@@ -10,7 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({route, navigation}) => {
-  const {todo} = route.params;
+  const {todo, updated_todo} = route.params;
 
   const [todoID, setTodoID] = useState(0);
   // const [todos, setTodos] = useState([
@@ -21,12 +21,15 @@ const HomeScreen = ({route, navigation}) => {
 
   useEffect(() => {
     if (route.params?.todo) {
-      // Post updated, do something with `route.params.post`
-      // For example, send the post to the server
+      // If a new todo was given
       setTodos([...todos, {id: todoID, task: todo, isDone: false}]);
       setTodoID(todoID + 1);
     }
-  }, [route.params?.todo]);
+    if (route.params?.updated_todo) {
+      // If an existing todo was updated
+      setTodos([...todos.filter((element) => element.id != updated_todo.id), updated_todo])
+    }
+  }, [route.params?.todo, route.params?.updated_todo]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -56,7 +59,7 @@ const HomeScreen = ({route, navigation}) => {
                   <View style={styles.todoListItemStyle}>
                     <TouchableOpacity
                       style={{flex: 1, margin: 10}}
-                      onPress={() => navigation.navigate('EditTodo')}>
+                      onPress={() => navigation.navigate('EditTodo', { existing_todo: item })}>
                       {item.isDone ? (
                         <Text
                           style={{
