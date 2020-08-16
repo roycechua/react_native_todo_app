@@ -56,7 +56,7 @@ const App = () => {
           name="EditTodo"
           component={EditTodoScreen}
           options={{
-          title: 'Edit To do',
+          title: 'Edit Todo',
           headerStyle: {
             backgroundColor: '#2196F3',
           },
