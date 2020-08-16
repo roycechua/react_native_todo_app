@@ -6,34 +6,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({route, navigation}) => {
-  const [windowWidth, setWindowWidth] = useState(100);
-
   const [todoID, setTodoID] = useState(0);
   const [todos, setTodos] = useState([
     {id: 1, task: 'Some task 1', isTaskDone: false},
-    {id: 2, task: 'Some task 2', isTaskDone: false}
+    {id: 2, task: 'Some task 2', isTaskDone: false},
   ]);
 
-  useEffect(() => {
-    Dimensions.addEventListener('change', () =>
-      setWindowWidth(Dimensions.get('window').width),
-    );
-    setWindowWidth(Dimensions.get('window').width);
-    // if (route.params?.new_todo) {
-    //   setTodos([...todos, route.params.new_todo])
-    // }
-  }, []);
+  useEffect(() => {}, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          style={{ margin: 15}}
+          style={{margin: 15}}
           onPress={() => navigation.navigate('AddTodo')}>
           <Icon name="plus" size={25} color="white" />
         </TouchableOpacity>
@@ -49,28 +38,19 @@ const HomeScreen = ({route, navigation}) => {
         <View style={styles.container}>
           {todos.length > 0 ? (
             <FlatList
-              style={{
-                flex: 1,
-                padding: 10,
-                width: windowWidth,
-              }}
+              style={styles.todoListStyle}
               data={todos}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({item}) => {
                 return (
-                  <TouchableOpacity
-                    style={{
-                      borderColor: 'black',
-                      borderWidth: 1,
-                      borderRadius: 5,
-                      flex: 1,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                    onPress={()=>navigation.navigate("EditTodo")}
-                    >
-                    <Text style={{ margin: 10 }}>{item.task}</Text>
+                  <View style={styles.todoListItemStyle}>
+                    <TouchableOpacity
+                      style={{flex: 1, margin: 10,}}
+                      onPress={() => navigation.navigate('EditTodo')}>
+                      <Text style={{ fontSize: 18 }}>
+                        {item.task}
+                      </Text>
+                    </TouchableOpacity>
                     <View style={{flexDirection: 'row'}}>
                       <TouchableOpacity
                         style={{margin: 10}}
@@ -83,7 +63,7 @@ const HomeScreen = ({route, navigation}) => {
                         <Icon name={'times'} size={20} />
                       </TouchableOpacity>
                     </View>
-                  </TouchableOpacity>
+                  </View>
                 );
               }}
             />
@@ -104,8 +84,23 @@ const HomeScreen = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'stretch',
     padding: 10,
+  },
+  todoListStyle: {
+    flex: 1,
+    padding: 5,
+  },
+  todoListItemStyle: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: 3,
+    padding: 5,
   },
   FloatingActionButton: {
     position: 'absolute',
