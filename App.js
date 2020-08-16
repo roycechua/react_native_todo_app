@@ -25,6 +25,7 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          initialParams={{ todo: "" }}
           options={{
           title: 'TODO App',
           headerStyle: {

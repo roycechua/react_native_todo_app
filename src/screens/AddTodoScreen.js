@@ -22,13 +22,9 @@ const AddTodoScreen = ({navigation}) => {
         onChangeText={(text) => setTodoText(text)}
       />
       <TouchableOpacity
-        style={{
-          alignItems: 'center',
-          margin: 10,
-          padding: 10,
-          backgroundColor: '#2196F3',
-          borderRadius: 10,
-        }}>
+        style={styles.addTodoButton}
+        onPress={() => navigation.navigate('Home', { todo: todoText })}
+      >
         <Text style={{fontSize: 25, color: 'white', fontWeight: 'bold'}}>
           Add Todo
         </Text>
@@ -43,6 +39,13 @@ const styles = StyleSheet.create({
     margin: 20,
     alignItems: 'stretch',
     justifyContent:'center'
+  },
+  addTodoButton: {
+    alignItems: 'center',
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#2196F3',
+    borderRadius: 10,
   },
   TextInputStyle: {
     borderColor: 'black',
