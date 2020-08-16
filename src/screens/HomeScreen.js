@@ -82,7 +82,7 @@ const HomeScreen = ({route, navigation}) => {
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={{margin: 10}}
-                        onPress={() => console.log('Delete')}>
+                        onPress={() => setTodos([...todos.filter((element) => element.id != item.id)])}>
                         <Icon name={'times'} size={20} />
                       </TouchableOpacity>
                     </View>
