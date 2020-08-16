@@ -73,7 +73,11 @@ const HomeScreen = ({route, navigation}) => {
                     <View style={{flexDirection: 'row'}}>
                       <TouchableOpacity
                         style={{margin: 10}}
-                        onPress={() => console.log('Mark as done')}>
+                        onPress={() => {
+                          let updated_item = item;
+                          updated_item.isDone = !updated_item.isDone
+                          setTodos([...todos.filter((element) => element.id != item.id), updated_item])
+                        }}>
                         <Icon name={'check'} size={20} />
                       </TouchableOpacity>
                       <TouchableOpacity
