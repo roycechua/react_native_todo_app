@@ -81,12 +81,12 @@ const HomeScreen = ({route, navigation}) => {
                           updated_item.isDone = !updated_item.isDone
                           setTodos([...todos.filter((element) => element.id != item.id), updated_item])
                         }}>
-                        <Icon name={'check'} size={20} />
+                        <Icon style={{color:'#5CB85C'} }name={'check'} size={20} />
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={{margin: 10}}
                         onPress={() => setTodos([...todos.filter((element) => element.id != item.id)])}>
-                        <Icon name={'times'} size={20} />
+                        <Icon style={{color:'#DC3545'}} name={'times'} size={20} />
                       </TouchableOpacity>
                     </View>
                   </View>
