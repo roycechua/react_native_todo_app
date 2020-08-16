@@ -10,13 +10,23 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({route, navigation}) => {
-  const [todoID, setTodoID] = useState(0);
-  const [todos, setTodos] = useState([
-    {id: 1, task: 'Some task 1', isTaskDone: false},
-    {id: 2, task: 'Some task 2', isTaskDone: false},
-  ]);
+  const {todo} = route.params;
 
-  useEffect(() => {}, []);
+  const [todoID, setTodoID] = useState(0);
+  // const [todos, setTodos] = useState([
+  //   {id: 1, task: 'Some task 1', isTaskDone: false},
+  //   {id: 2, task: 'Some task 2', isTaskDone: false},
+  // ]);
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    if (route.params?.todo) {
+      // Post updated, do something with `route.params.post`
+      // For example, send the post to the server
+      setTodos([...todos, {id: todoID, task: todo, isDone: false}]);
+      setTodoID(todoID + 1);
+    }
+  }, [route.params?.todo]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,11 +55,20 @@ const HomeScreen = ({route, navigation}) => {
                 return (
                   <View style={styles.todoListItemStyle}>
                     <TouchableOpacity
-                      style={{flex: 1, margin: 10,}}
+                      style={{flex: 1, margin: 10}}
                       onPress={() => navigation.navigate('EditTodo')}>
-                      <Text style={{ fontSize: 18 }}>
-                        {item.task}
-                      </Text>
+                      {item.isDone ? (
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            textDecorationLine: 'line-through',
+                            textDecorationStyle: 'solid',
+                          }}>
+                          {item.task}
+                        </Text>
+                      ) : (
+                        <Text style={{fontSize: 18}}>{item.task}</Text>
+                      )}
                     </TouchableOpacity>
                     <View style={{flexDirection: 'row'}}>
                       <TouchableOpacity
